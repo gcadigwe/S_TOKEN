@@ -11,16 +11,25 @@ contract SarzyToken {
 	//token standard
 	string public standard = "Sarzy Token v1.0";
 
+
 	//Transfer event
 	event Transfer (
 		address indexed _from,
 		address indexed _to,
 		uint indexed _value
 		);
-
+	//approve event
+	event Approval (
+		address indexed _owner,
+		address indexed _spender,
+		uint indexed _value
+		);
 
 	//getting balance
 	mapping(address => uint) public balanceOf;
+	//allowance mapping
+	mapping(address => mapping(address => uint)) public allowance;
+
 
 	constructor(uint _initialsupply) public {
 		 totalSupply = _initialsupply;
@@ -46,4 +55,20 @@ contract SarzyToken {
 	return true;
 	
 	}
+
+	//approve function
+
+	function approve(address _spender,uint _value) public returns(bool success){
+		//allowance 
+		allowance[msg.sender][_spender] = _value;
+
+		//emit event
+		emit Approval(msg.sender,_spender,_value);
+
+		return true;
+	}
+
+
+	//transfer From
+
 }
