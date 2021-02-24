@@ -70,5 +70,24 @@ contract SarzyToken {
 
 
 	//transfer From
+	function transferFrom(address _from, address _to, uint _value) public returns (bool success){
+		//require _from has enough token
+		require(balanceOf[_from] >= _value);
+		//require allowance is big enough
+		require(allowance[_from][msg.sender] >= _value);
+
+		//change the balance
+		balanceOf[_from] -= _value;
+		balanceOf[_to] += _value;
+
+
+		//update the allowance
+
+		allowance[_from][msg.sender] = 0;
+
+		//transfer event
+		emit Transfer(_from,_to,_value);
+		return true;
+	}
 
 }
